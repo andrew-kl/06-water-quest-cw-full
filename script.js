@@ -1,8 +1,9 @@
 // Game configuration and state variables
-const GOAL_CANS = 20;        // Total items needed to collect
-const TIMER_INITIAL = 30;     // Initial time in seconds for the game
-const ROCK_CHANCE = 0.25;        // Chance to spawn a rock instead of a water can
-const SPAWN_INTERVAL = 850;   // Time in milliseconds between spawns
+const GAME_PARAMS_EASY = { time: 45, goal: 20, spawnInterval: 1250 , rock: 0.15 }; // Easier game parameters
+const GAME_PARAMS_MEDIUM = { time: 40, goal: 25, spawnInterval: 1000, rock: 0.2 }; // Medium difficulty game parameters
+const GAME_PARAMS_HARD = { time: 35, goal: 30, spawnInterval: 750, rock: 0.25 }; // Harder game parameters
+let ACTIVE_PARAMS; // Will hold the currently selected game parameters
+
 let currentCans = 0;         // Current number of items collected
 let gameActive = false;      // Tracks if game is currently running
 let spawnInterval;          // Holds the interval for spawning items
@@ -36,7 +37,39 @@ function createGrid() {
 createGrid();
 
 // Update game instructions based on GOAL_CANS value
-document.querySelector('.game-instructions').textContent = `Collect ${GOAL_CANS} water cans to complete the game!`;
+function updateInstructions() {
+  document.querySelector('.game-instructions').textContent = `Collect ${GOAL_CANS} water cans to complete the game!`;
+}
+updateInstructions();
+
+// Difficulty selection logic (AI-generated)
+const difficultyButtons = document.querySelectorAll('.difficulty-btn');
+difficultyButtons.forEach(btn => {
+  btn.addEventListener('click', function() {
+    difficultyButtons.forEach(b => b.classList.remove('selected'));
+    this.classList.add('selected');
+    let params;
+    switch (this.dataset.difficulty) {
+      case 'easy':
+        params = GAME_PARAMS_EASY; break;
+      case 'hard':
+        params = GAME_PARAMS_HARD; break;
+      default:
+        params = GAME_PARAMS_MEDIUM;
+    }
+    GOAL_CANS = params.goal;
+    TIMER_INITIAL = params.time;
+    SPAWN_INTERVAL = params.spawnInterval;
+    ROCK_CHANCE = params.rock;
+    updateInstructions();
+    document.getElementById('timer').textContent = TIMER_INITIAL;
+    document.getElementById('current-cans').textContent = 0;
+    currentCans = 0;
+  });
+});
+
+// Set default selected button (medium)
+document.querySelector('.difficulty-btn[data-difficulty="medium"]').classList.add('selected');
 
 // Spawns a new item in a random grid cell
 function spawnWaterCan() {

@@ -40,6 +40,38 @@ body {
   color: #333;
 }
 
+.difficulty-selection {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.difficulty-btn {
+  padding: 8px 18px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  background: #2E9DF7;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+.difficulty-btn[data-difficulty="easy"] {
+  background: #4FCB53;
+}
+.difficulty-btn[data-difficulty="medium"] {
+  background: #FFC907;
+  color: #333;
+}
+.difficulty-btn[data-difficulty="hard"] {
+  background: #F5402C;
+}
+.difficulty-btn:hover, .difficulty-btn.selected {
+  transform: scale(1.08);
+  filter: brightness(1.1);
+}
+
 .container {
   max-width: 750px;
   margin: auto;
