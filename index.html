@@ -9,15 +9,17 @@
 <body>
   <div class="container">
     <h1>Water Quest</h1>
+    <p class="game-instructions">Collect water cans to complete the game!</p>
+    <p class="game-rock-hint"><i>Collecting rocks will reduce your score.</i></p>
     <div class="difficulty-selection">
+      <p>Select Difficulty:</p>
       <button class="difficulty-btn" data-difficulty="easy">Easy</button>
       <button class="difficulty-btn" data-difficulty="medium">Medium</button>
       <button class="difficulty-btn" data-difficulty="hard">Hard</button>
     </div>
-    <p class="game-instructions">Collect 20 water cans to complete the game!</p>
-    <p class="game-rock-hint"><i>Collecting rocks will reduce your score.</i></p>
     <div class="stats">
       <p>Cans Collected: <span id="current-cans">0</span></p>
+      <p>Goal: <span id="goal">30</span></p>
       <p>Time Left: <span id="timer">30</span>s</p>
     </div>
     <div id="achievements" class="achievement"></div>

@@ -44,7 +44,13 @@ body {
   display: flex;
   justify-content: center;
   gap: 12px;
-  margin-bottom: 18px;
+  margin: 30px 0 30px 0;
+}
+
+.difficulty-selection p {
+  font-weight: bold;
+  margin: 0;
+  align-self: center;
 }
 
 .difficulty-btn {
@@ -85,7 +91,7 @@ h1 {
   text-align: center;
   font-size: 30px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: #333;
 }
 
@@ -98,18 +104,19 @@ h1 img {
 .game-instructions {
   font-size: 18px;
   text-align: center;
+  margin: 0;
 }
 
 .game-rock-hint {
   font-size: 16px;
-  margin-bottom: 30px;
   text-align: center;
   color: #797979;
+  margin-top: 5px;
 }
 
 .stats {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   margin-bottom: 30px;
   background-color: #f5f5f5;
   padding: 15px 0;
@@ -185,7 +192,7 @@ h1 img {
 }
 
 
-button {
+button[id="start-game"] {
   font-family: 'Proxima Nova', sans-serif;
   background-color: #FFC907;
   color: white;

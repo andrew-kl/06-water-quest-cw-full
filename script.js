@@ -36,12 +36,6 @@ function createGrid() {
 // Ensure the grid is created when the page loads
 createGrid();
 
-// Update game instructions based on GOAL_CANS value
-function updateInstructions() {
-  document.querySelector('.game-instructions').textContent = `Collect ${GOAL_CANS} water cans to complete the game!`;
-}
-updateInstructions();
-
 // Difficulty selection logic (AI-generated)
 const difficultyButtons = document.querySelectorAll('.difficulty-btn');
 difficultyButtons.forEach(btn => {
