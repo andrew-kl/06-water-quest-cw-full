@@ -86,11 +86,6 @@ body {
   box-sizing: border-box;
 }
 
-/* .difficulty-btn:disabled {
-  background-color: #cbccd1;
-  cursor: not-allowed;
-} */
-
 .container {
   max-width: 750px;
   margin: auto;
@@ -222,6 +217,8 @@ button[id="start-game"] {
 button:disabled, .difficulty-btn:disabled {
   background-color: #cbccd1;
   cursor: not-allowed;
+  transform: none;
+  filter: none;
 }
 
 /* Messagebox styles */

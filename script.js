@@ -42,23 +42,17 @@ difficultyButtons.forEach(btn => {
   btn.addEventListener('click', function() {
     difficultyButtons.forEach(b => b.classList.remove('selected'));
     this.classList.add('selected');
-    let params;
     switch (this.dataset.difficulty) {
       case 'easy':
-        params = GAME_PARAMS_EASY; break;
+        ACTIVE_PARAMS = GAME_PARAMS_EASY; break;
       case 'hard':
-        params = GAME_PARAMS_HARD; break;
+        ACTIVE_PARAMS = GAME_PARAMS_HARD; break;
       default:
-        params = GAME_PARAMS_MEDIUM;
+        ACTIVE_PARAMS = GAME_PARAMS_MEDIUM;
     }
-    GOAL_CANS = params.goal;
-    TIMER_INITIAL = params.time;
-    SPAWN_INTERVAL = params.spawnInterval;
-    ROCK_CHANCE = params.rock;
-    updateInstructions();
-    document.getElementById('timer').textContent = TIMER_INITIAL;
-    document.getElementById('current-cans').textContent = 0;
-    currentCans = 0;
+    document.getElementById('current-cans').textContent = '0'; // Reset score display
+    document.getElementById('timer').textContent = ACTIVE_PARAMS.time;
+    document.getElementById('goal').textContent = ACTIVE_PARAMS.goal;
   });
 });
 
@@ -79,7 +73,7 @@ function spawnWaterCan() {
   // Use a template literal to create the wrapper and water-can element
   // 60% chance to spawn a water can (+1 point on collection)
   // 40% chance to spawn a rock (-1 point on collection)
-  if (Math.random() < 1 - ROCK_CHANCE) {
+  if (Math.random() < 1 - ACTIVE_PARAMS.rock) {
     randomCell.innerHTML = `
       <div class="water-can-wrapper">
         <div class="water-can"></div>
@@ -126,11 +120,13 @@ function startGame() {
 
   currentCans = 0; // Reset the count of collected items
   document.getElementById('current-cans').textContent = currentCans; // Update the displayed count
-  document.getElementById('timer').textContent = TIMER_INITIAL; // Reset the timer
+  document.getElementById('timer').textContent = ACTIVE_PARAMS.time; // Reset the timer
 
   createGrid(); // Set up the game grid
-  spawnInterval = setInterval(spawnWaterCan, SPAWN_INTERVAL); // Spawn objects every SPAWN_INTERVAL milliseconds
+  spawnInterval = setInterval(spawnWaterCan, ACTIVE_PARAMS.spawnInterval); // Spawn objects every SPAWN_INTERVAL milliseconds
   timerInterval = setInterval(updateTimer, 1000); // Decrement the timer every second
+
+  console.log(`Params used: ${JSON.stringify(ACTIVE_PARAMS)}`); // Log the active parameters for debugging
 }
 
 function endGame() {
@@ -140,7 +136,7 @@ function endGame() {
   document.querySelectorAll('.grid-cell').forEach(cell => (cell.innerHTML = '')); // Clear all cells
 
   // Show game over message based on the player's results
-  if (currentCans >= GOAL_CANS) {
+  if (currentCans >= ACTIVE_PARAMS.goal) {
     const message = WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)];
     showMessageBox(message);
     showConfetti(); // Show confetti animation for winning
@@ -150,6 +146,7 @@ function endGame() {
   }
 
   document.getElementById('start-game').disabled = false; // Re-enable the start button
+  document.querySelectorAll('.difficulty-btn').forEach(btn => btn.disabled = false); // Re-enable difficulty buttons after the game
 }
 
 // Displays a message to the user in a special message box
