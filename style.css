@@ -18,6 +18,7 @@ Fonts:
 
 */
 
+/* Implement Charity: water font branding (applied to body text and buttons respectively) */
 @font-face {
   font-family: Avenir;
   src: url('fonts/Avenir Regular.ttf') format('truetype');

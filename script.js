@@ -106,8 +106,9 @@ function collectItem(event) {
   if (target.classList.contains('water-can') || target.classList.contains('rock')) {
     // Increment or decrement score accordingly (without going below 0)
     currentCans += target.classList.contains('water-can') ? 1 : (currentCans > 0 ? -1 : 0); 
-    target.parentElement.remove(); // Remove the clicked object from the grid
+    target.parentElement.remove(); // Remove the clicked object from the grid (DOM editing)
     document.getElementById('current-cans').textContent = currentCans; // Update the displayed score
+    // TODO: Add sound effects
   }
 }
 
