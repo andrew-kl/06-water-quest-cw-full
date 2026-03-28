@@ -119,6 +119,7 @@ function collectItem(event) {
 
 // Initializes and starts a new game
 function startGame() {
+  document.querySelectorAll('.difficulty-btn').forEach(btn => btn.disabled = true); // Disable difficulty buttons during the game
   document.getElementById('start-game').disabled = true; // Disable the start button when the game starts
   if (gameActive) return; // Failsafe: prevent starting a new game if one is already active
   gameActive = true;
