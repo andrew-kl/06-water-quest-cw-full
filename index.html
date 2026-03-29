@@ -30,5 +30,13 @@
     <p>Support <a href="https://www.charitywater.org/" target="_blank">charity: water</a></p>
   </footer>
   <script src="script.js"></script>
+  <script type="module">
+    // Loading the sound effects themselves (AI-generated)
+    await loadSound('start', 'sounds/start.mp3'); // Sound for starting the game
+    await loadSound('score', 'sounds/water-can.mp3'); // Sound for collecting a water can
+    await loadSound('rock', 'sounds/rock.mp3'); // Sound for collecting a rock
+    await loadSound('win', 'sounds/win.mp3'); // Sound for winning the game
+    await loadSound('lose', 'sounds/lose.mp3'); // Sound for losing the game
+  </script>
 </body>
 </html>

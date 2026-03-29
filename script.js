@@ -9,6 +9,39 @@ let gameActive = false;      // Tracks if game is currently running
 let spawnInterval;          // Holds the interval for spawning items
 let timerInterval;          // Holds the intervals for timer ticks
 
+// Sound effect logic (AI-generated)
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const masterGain = audioCtx.createGain();
+masterGain.gain.value = 1;
+masterGain.connect(audioCtx.destination);
+
+// Logic for loading sound effects that allows parallel playback (AI-generated)
+const soundBuffers = {};
+async function loadSound(name, url) {
+  const res = await fetch(url);
+  const arrayBuffer = await res.arrayBuffer();
+  soundBuffers[name] = await audioCtx.decodeAudioData(arrayBuffer);
+}
+ 
+// Logic for playing sound effects with support for parallel playback and volume control (AI-generated)
+function playSound(name, volume = 1) {
+  const buffer = soundBuffers[name];
+  if (!buffer) return;
+
+  const source = audioCtx.createBufferSource();
+  source.buffer = buffer;
+
+  const gainNode = audioCtx.createGain();
+  gainNode.gain.value = volume;
+
+  source.connect(gainNode);
+  gainNode.connect(masterGain);
+
+  source.start(0);
+
+  return { source, gainNode };
+}
+
 // Game outcome messages
 const WIN_MESSAGES = [
   "Congratulations! You've collected enough water cans and won the game!",
@@ -108,7 +141,13 @@ function collectItem(event) {
     currentCans += target.classList.contains('water-can') ? 1 : (currentCans > 0 ? -1 : 0); 
     target.parentElement.remove(); // Remove the clicked object from the grid (DOM editing)
     document.getElementById('current-cans').textContent = currentCans; // Update the displayed score
-    // TODO: Add sound effects
+
+    // Play sound effects
+    if (target.classList.contains('water-can')) {
+      playSound('score', 0.7); // Play water can collection sound at a slightly lower volume
+    } else {
+      playSound('rock', 0.5); // Play rock collection sound at a slightly lower volume
+    }
   }
 }
 
@@ -127,6 +166,8 @@ function startGame() {
   spawnInterval = setInterval(spawnWaterCan, ACTIVE_PARAMS.spawnInterval); // Spawn objects every SPAWN_INTERVAL milliseconds
   timerInterval = setInterval(updateTimer, 1000); // Decrement the timer every second
 
+  playSound('start'); // Play the game start sound effect
+
   console.log(`Params used: ${JSON.stringify(ACTIVE_PARAMS)}`); // Log the active parameters for debugging
 }
 
@@ -140,10 +181,12 @@ function endGame() {
   if (currentCans >= ACTIVE_PARAMS.goal) {
     const message = WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)];
     showMessageBox(message);
+    playSound('win'); // Play the game win sound effect
     showConfetti(); // Show confetti animation for winning
   } else {
     const message = LOSE_MESSAGES[Math.floor(Math.random() * LOSE_MESSAGES.length)];
     showMessageBox(message);
+    playSound('lose'); // Play the game lose sound effect
   }
 
   document.getElementById('start-game').disabled = false; // Re-enable the start button
