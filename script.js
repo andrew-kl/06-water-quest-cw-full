@@ -2,7 +2,7 @@
 const GAME_PARAMS_EASY = { time: 45, goal: 20, spawnInterval: 1250 , rock: 0.15 }; // Easier game parameters
 const GAME_PARAMS_MEDIUM = { time: 40, goal: 25, spawnInterval: 1000, rock: 0.2 }; // Medium difficulty game parameters
 const GAME_PARAMS_HARD = { time: 35, goal: 30, spawnInterval: 750, rock: 0.25 }; // Harder game parameters
-let ACTIVE_PARAMS; // Will hold the currently selected game parameters
+let ACTIVE_PARAMS = GAME_PARAMS_MEDIUM; // Will hold the currently selected game parameters (default to medium)
 
 let currentCans = 0;         // Current number of items collected
 let gameActive = false;      // Tracks if game is currently running
